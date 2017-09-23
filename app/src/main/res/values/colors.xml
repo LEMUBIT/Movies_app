@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+
+
+    <!--rating-->
+    <color name="bad">#ff4640</color>
+    <color name="fair">#fcbc31</color>
+    <color name="good">#bdde00</color>
+    <color name="great">#1dfd19</color>
+    <color name="rating_text">#ffffff</color>
+</resources>
