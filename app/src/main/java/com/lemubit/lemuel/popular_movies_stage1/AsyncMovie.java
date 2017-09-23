@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class AsyncMovie extends AsyncTask<String,Void,String> {
+public class AsyncMovie extends AsyncTask<String, Void, String> {
 
     private RecyclerView movieRecycler;
     private movieAdapter mAdapter;
@@ -37,8 +39,8 @@ public class AsyncMovie extends AsyncTask<String,Void,String> {
     //////////////////constructor
 
     public AsyncMovie(Activity movieActivity) {
-        this.movieActivity=movieActivity;
-        movieProgress=movieActivity.findViewById(R.id.movie_progress);
+        this.movieActivity = movieActivity;
+        movieProgress = movieActivity.findViewById(R.id.movie_progress);
     }
 
     @Override
@@ -53,7 +55,7 @@ public class AsyncMovie extends AsyncTask<String,Void,String> {
 
         /////////////////////////////GET url from string
         try {
-            url=new URL(path[0]);
+            url = new URL(path[0]);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -116,41 +118,40 @@ public class AsyncMovie extends AsyncTask<String,Void,String> {
     }
 
 
-
     @Override
     protected void onPostExecute(String movieResult) {
 
         super.onPostExecute(movieResult);
         movieProgress.setVisibility(View.INVISIBLE);
-        List<movieData> movies=new ArrayList<>();
+        List<movieData> movies = new ArrayList<>();
 
 
         try {
-            JSONObject root=new JSONObject(movieResult);
-            JSONArray movaray=root.getJSONArray("results");
+            JSONObject root = new JSONObject(movieResult);
+            JSONArray movaray = root.getJSONArray("results");
 
 
             // Extract data from json and store into ArrayList as class objects
-            for(int i=0;i<movaray.length();i++){
+            for (int i = 0; i < movaray.length(); i++) {
                 JSONObject json_data = movaray.getJSONObject(i);
                 movieData aMovie = new movieData();
-                aMovie.Overview= json_data.getString("overview");
-                aMovie.posterPath= json_data.getString("poster_path");
-                Log.e("poster path:",json_data.getString("poster_path"));
-                aMovie.title= json_data.getString("title");
-                aMovie.releaseDate= json_data.getString("release_date");
-                aMovie.voteAverage=String.valueOf(json_data.getDouble("vote_average"));
+                aMovie.Overview = json_data.getString("overview");
+                aMovie.posterPath = json_data.getString("poster_path");
+                Log.e("poster path:", json_data.getString("poster_path"));
+                aMovie.title = json_data.getString("title");
+                aMovie.releaseDate = json_data.getString("release_date");
+                aMovie.voteAverage = String.valueOf(json_data.getDouble("vote_average"));
                 movies.add(aMovie);
             }
 
-            movieRecycler= movieActivity.findViewById(R.id.movie_recycler_view);
+            movieRecycler = movieActivity.findViewById(R.id.movie_recycler_view);
             mAdapter = new movieAdapter(movieActivity, movies);
             movieRecycler.setAdapter(mAdapter);
-            movieRecycler.setLayoutManager(new GridLayoutManager(movieActivity,2));
+            movieRecycler.setLayoutManager(new GridLayoutManager(movieActivity, 2));
 
         } catch (JSONException e) {
-            Toast.makeText(movieActivity,"Could not get movies!", Toast.LENGTH_LONG).show();
-            Log.e("JSON:",e.getMessage());
+            Toast.makeText(movieActivity, "Could not get movies!", Toast.LENGTH_LONG).show();
+            Log.e("JSON:", e.getMessage());
         }
 
 

@@ -1,7 +1,6 @@
 package com.lemubit.lemuel.popular_movies_stage1;
 
 
-
 public class movieData {
 
     public String posterPath;
