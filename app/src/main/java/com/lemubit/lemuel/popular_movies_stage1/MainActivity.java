@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView movieRecycler;
     private movieAdapter mAdapter;
     private ProgressBar movieProgress;
-    static String APIkey=""; //TODO: Hi! Your moviedb API key from themoviedb.org goes in here in order for the App to work
+    static String APIkey=  BuildConfig.Movie_API;
     private static final String POPULAR_URL="https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key="+APIkey;
     private static final String TOP_RATED="https://api.themoviedb.org/3/movie/top_rated?page=1&language=en-US&api_key="+APIkey;
 
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                 movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this,2));
 
             } catch (JSONException e) {
-                Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this,"Could not get movies!", Toast.LENGTH_LONG).show();
                 Log.e("JSON:",e.getMessage());
             }
 
@@ -183,11 +183,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.popular:
                 new AsyncMovie().execute(POPULAR_URL);
-                mAdapter.notifyDataSetChanged();
                 return true;
             case R.id.rating:
                 new AsyncMovie().execute(TOP_RATED);
-                mAdapter.notifyDataSetChanged();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
