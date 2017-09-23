@@ -37,11 +37,8 @@ public class AsyncMovie extends AsyncTask<String,Void,String> {
     //////////////////constructor
 
     public AsyncMovie(Activity movieActivity) {
-
         this.movieActivity=movieActivity;
         movieProgress=movieActivity.findViewById(R.id.movie_progress);
-
-
     }
 
     @Override
@@ -57,7 +54,6 @@ public class AsyncMovie extends AsyncTask<String,Void,String> {
         /////////////////////////////GET url from string
         try {
             url=new URL(path[0]);
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -119,8 +115,11 @@ public class AsyncMovie extends AsyncTask<String,Void,String> {
 
     }
 
+
+
     @Override
     protected void onPostExecute(String movieResult) {
+
         super.onPostExecute(movieResult);
         movieProgress.setVisibility(View.INVISIBLE);
         List<movieData> movies=new ArrayList<>();
@@ -130,7 +129,7 @@ public class AsyncMovie extends AsyncTask<String,Void,String> {
             JSONObject root=new JSONObject(movieResult);
             JSONArray movaray=root.getJSONArray("results");
 
-            /////
+
             // Extract data from json and store into ArrayList as class objects
             for(int i=0;i<movaray.length();i++){
                 JSONObject json_data = movaray.getJSONObject(i);
