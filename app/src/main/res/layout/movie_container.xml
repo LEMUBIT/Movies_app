@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_margin="4dp"
+    app:cardCornerRadius="4dp">
 
-
-    <ImageView
-        android:id="@+id/movie_image"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/movie_image"
-        android:padding="5dp"
-        android:scaleType="fitXY" />
-</LinearLayout>
+        android:id="@+id/imagePackage"
+        android:background="?android:selectableItemBackground"
+        android:orientation="vertical"
+        >
+
+
+        <ImageView
+            android:id="@+id/movie_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/movie_image"
+            android:padding="5dp"
+            android:scaleType="fitXY" />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -13,8 +13,9 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:label="Movies"
             android:configChanges="orientation|screenSize"
-            android:label="Movies">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,10 +24,13 @@
         </activity>
 
         <activity
-            android:name=".Movie_detail"
+            android:name=".MovieDetail"
+            android:label="Details"
             android:configChanges="orientation|screenSize"
-            android:label="Details"></activity>
+            ></activity>
 
     </application>
 
 </manifest>
+
+<!--todo concerning the  android:configChanges="orientation|screenSize" it will be removed later and replaced with onSaveInstanceState-->

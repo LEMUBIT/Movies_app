@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lemubit.lemuel.popular_movies_stage1.MainActivity">
+    tools:context="com.lemubit.lemuel.popular_movies_stage1.MainActivity"
+
+    >
 
     <ProgressBar
         android:id="@+id/movie_progress"

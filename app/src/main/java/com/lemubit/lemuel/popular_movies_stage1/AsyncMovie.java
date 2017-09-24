@@ -1,6 +1,7 @@
 package com.lemubit.lemuel.popular_movies_stage1;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +28,7 @@ import java.util.List;
 public class AsyncMovie extends AsyncTask<String, Void, String> {
 
     private RecyclerView movieRecycler;
-    private movieAdapter mAdapter;
+    private MovieAdapter mAdapter;
     private ProgressBar movieProgress;
     private static final int CONNECTION_TIMEOUT = 15000;
     private static final int READ_TIMEOUT = 20000;
@@ -123,7 +124,7 @@ public class AsyncMovie extends AsyncTask<String, Void, String> {
 
         super.onPostExecute(movieResult);
         movieProgress.setVisibility(View.INVISIBLE);
-        List<movieData> movies = new ArrayList<>();
+        List<MovieData> movies = new ArrayList<>();
 
 
         try {
@@ -134,7 +135,7 @@ public class AsyncMovie extends AsyncTask<String, Void, String> {
             // Extract data from json and store into ArrayList as class objects
             for (int i = 0; i < movaray.length(); i++) {
                 JSONObject json_data = movaray.getJSONObject(i);
-                movieData aMovie = new movieData();
+                MovieData aMovie = new MovieData();
                 aMovie.Overview = json_data.getString("overview");
                 aMovie.posterPath = json_data.getString("poster_path");
                 Log.e("poster path:", json_data.getString("poster_path"));
@@ -145,9 +146,15 @@ public class AsyncMovie extends AsyncTask<String, Void, String> {
             }
 
             movieRecycler = movieActivity.findViewById(R.id.movie_recycler_view);
-            mAdapter = new movieAdapter(movieActivity, movies);
+            mAdapter = new MovieAdapter(movieActivity, movies);
             movieRecycler.setAdapter(mAdapter);
-            movieRecycler.setLayoutManager(new GridLayoutManager(movieActivity, 2));
+
+            if (movieActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                movieRecycler.setLayoutManager(new GridLayoutManager(movieActivity, 2));
+            } else {
+                movieRecycler.setLayoutManager(new GridLayoutManager(movieActivity, 4));
+            }
+
 
         } catch (JSONException e) {
             Toast.makeText(movieActivity, "Could not get movies!", Toast.LENGTH_LONG).show();

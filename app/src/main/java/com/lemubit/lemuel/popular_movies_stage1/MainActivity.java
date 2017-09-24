@@ -10,9 +10,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView movieRecycler;
+    @BindView(R.id.movie_recycler_view) RecyclerView movieRecycler;
+
     static String APIkey = BuildConfig.Movie_API;
     private static final String POPULAR_URL = "https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=" + APIkey;
     private static final String TOP_RATED = "https://api.themoviedb.org/3/movie/top_rated?page=1&language=en-US&api_key=" + APIkey;
@@ -21,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        movieRecycler = (RecyclerView) findViewById(R.id.movie_recycler_view);
+        ButterKnife.bind(this);
         new AsyncMovie(MainActivity.this).execute(POPULAR_URL);
     }
 
