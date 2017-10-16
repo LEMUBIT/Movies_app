@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="Movies"
+            android:label="Movies To Watch"
             android:configChanges="orientation|screenSize"
             >
             <intent-filter>
@@ -27,8 +27,16 @@
             android:name=".MovieDetail"
             android:label="Details"
             android:configChanges="orientation|screenSize"
-            ></activity>
+            android:parentActivityName=".MainActivity"
+            >
 
+        </activity>
+
+        <provider
+            android:authorities="com.lemubit.lemuel.popular_movies_stage1"
+            android:name="com.lemubit.lemuel.popular_movies_stage1.localData.MovieContentProvider"
+            android:exported="false"
+            />
     </application>
 
 </manifest>

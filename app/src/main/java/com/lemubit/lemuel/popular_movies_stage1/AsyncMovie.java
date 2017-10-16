@@ -138,10 +138,10 @@ public class AsyncMovie extends AsyncTask<String, Void, String> {
                 MovieData aMovie = new MovieData();
                 aMovie.Overview = json_data.getString("overview");
                 aMovie.posterPath = json_data.getString("poster_path");
-                Log.e("poster path:", json_data.getString("poster_path"));
                 aMovie.title = json_data.getString("title");
                 aMovie.releaseDate = json_data.getString("release_date");
                 aMovie.voteAverage = String.valueOf(json_data.getDouble("vote_average"));
+                aMovie.movieId=String.valueOf(json_data.getInt("id"));
                 movies.add(aMovie);
             }
 

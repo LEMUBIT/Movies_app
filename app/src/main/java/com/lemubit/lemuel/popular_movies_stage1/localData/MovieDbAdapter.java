@@ -1,8 +1,9 @@
-package com.lemubit.lemuel.popular_movies_stage1;
+package com.lemubit.lemuel.popular_movies_stage1.localData;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,24 +13,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-
+import com.lemubit.lemuel.popular_movies_stage1.MovieAdapter;
+import com.lemubit.lemuel.popular_movies_stage1.MovieData;
+import com.lemubit.lemuel.popular_movies_stage1.MovieDetail;
+import com.lemubit.lemuel.popular_movies_stage1.R;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
-import java.util.List;
+/**
+ * Created by charl on 16/10/2017.
+ */
 
+public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    private Cursor mCursor;
     private Context context;
     private LayoutInflater inflater;
-    List<MovieData> movies = Collections.emptyList();
 
-    public MovieAdapter(Context context, List<MovieData> movies) {
+    public MovieDbAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-        this.movies = movies;
     }
 
     @Override
@@ -41,12 +44,15 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        // Get current position of item in recyclerview to bind data and assign values from list
         MyMovieHolder myHolder = (MyMovieHolder) holder;
-        MovieData current = movies.get(position);
+        int movieUrl = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_IMAGE_URL);
+        int movieID = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_ID);
+
+        mCursor.moveToPosition(position);
+
 
         try {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w185/" + current.posterPath).networkPolicy(NetworkPolicy.OFFLINE).into(myHolder.moviePoster);
+            Picasso.with(context).load(mCursor.getString(movieUrl)).networkPolicy(NetworkPolicy.OFFLINE).into(myHolder.moviePoster);
         } catch (Exception e) {
             Log.e("image eeer:", e.getMessage());
         }
@@ -55,7 +61,25 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        if (mCursor == null) {
+            return 0;
+        }
+        return mCursor.getCount();
+    }
+
+    public Cursor swapCursor(Cursor cursor) {
+
+        if (mCursor == cursor) {
+            return null; // bc nothing has changed
+        }
+        Cursor temp = mCursor;
+        this.mCursor = cursor; // new cursor value assigned
+
+        //check if this is a valid cursor, then update the cursor
+        if (cursor != null) {
+            this.notifyDataSetChanged();
+        }
+        return temp;
     }
 
 
@@ -87,19 +111,17 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-            MovieData current = movies.get(getAdapterPosition());
-
-            Intent movie = new Intent(context, MovieDetail.class);
-            movie.putExtra("image", current.posterPath);
-            movie.putExtra("overview", current.Overview);
-            movie.putExtra("title", current.title);
-            movie.putExtra("date", current.releaseDate);
-            movie.putExtra("rating", current.voteAverage);
-            movie.putExtra("id",current.movieId);
-
-            context.startActivity(movie);
+//            MovieData current = movies.get(getAdapterPosition());
+//
+//            Intent movie = new Intent(context, MovieDetail.class);
+//            movie.putExtra("image", current.posterPath);
+//            movie.putExtra("overview", current.Overview);
+//            movie.putExtra("title", current.title);
+//            movie.putExtra("date", current.releaseDate);
+//            movie.putExtra("rating", current.voteAverage);
+//            movie.putExtra("id",current.movieId);
+//
+//            context.startActivity(movie);
         }
     }
-
-
 }

@@ -8,4 +8,5 @@ public class MovieData {
     public String Overview;
     public String voteAverage;
     public String releaseDate;
+    public String movieId;
 }
