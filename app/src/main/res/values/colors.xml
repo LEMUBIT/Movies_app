@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 
 
-
+<color name="white">#ffff</color>
 
     <!--rating-->
     <color name="bad">#ff4640</color>

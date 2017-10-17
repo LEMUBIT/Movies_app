@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.lemubit.lemuel.popular_movies_stage1.MovieAdapter;
 import com.lemubit.lemuel.popular_movies_stage1.MovieData;
@@ -19,6 +20,10 @@ import com.lemubit.lemuel.popular_movies_stage1.MovieDetail;
 import com.lemubit.lemuel.popular_movies_stage1.R;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by charl on 16/10/2017.
@@ -29,6 +34,10 @@ public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Cursor mCursor;
     private Context context;
     private LayoutInflater inflater;
+    ArrayList<MovieData> movies = new ArrayList<>();
+
+
+
 
     public MovieDbAdapter(Context context) {
         this.context = context;
@@ -45,11 +54,15 @@ public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MyMovieHolder myHolder = (MyMovieHolder) holder;
-        int movieUrl = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_IMAGE_URL);
         int movieID = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_ID);
+        int title = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_TITLE);
+        int overview = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_OVERVIEW);
+        int date = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_RELEASE_DATE);
+        int imagePath = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_IMAGE_PATH);
+        int rating = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_RATING);
 
         mCursor.moveToPosition(position);
-
+        int movieUrl = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_IMAGE_URL);
 
         try {
             Picasso.with(context).load(mCursor.getString(movieUrl)).networkPolicy(NetworkPolicy.OFFLINE).into(myHolder.moviePoster);
@@ -59,6 +72,16 @@ public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Log.e("image eeer:", e.getMessage());
         }
 
+        /*Insert details into Array List
+        * **/
+        MovieData aMovie = new MovieData();
+        aMovie.Overview = mCursor.getString(overview);
+        aMovie.posterPath = mCursor.getString(imagePath);
+        aMovie.title = mCursor.getString(title);
+        aMovie.releaseDate = mCursor.getString(date);
+        aMovie.voteAverage = mCursor.getString(rating);
+        aMovie.movieId = mCursor.getString(movieID);
+        movies.add(position,aMovie);
     }
 
     @Override
@@ -113,22 +136,18 @@ public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void onClick(View view) {
-            int movieID = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_ID);
-            int title=mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_TITLE);
-            int overview=mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_OVERVIEW);
-            int date=mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_RELEASE_DATE);
-            int imagePath=mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_IMAGE_PATH);
-            int rating=mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_RATING);
 
+            MovieData current = movies.get(this.getAdapterPosition());
             Intent movie = new Intent(context, MovieDetail.class);
-            movie.putExtra("image", mCursor.getString(imagePath));
-            movie.putExtra("overview", mCursor.getString(overview));
-            movie.putExtra("title", mCursor.getString(title));
-            movie.putExtra("date", mCursor.getString(date));
-            movie.putExtra("rating", mCursor.getString(rating));
-            movie.putExtra("id",mCursor.getString(movieID));
-
+            movie.putExtra("image", current.posterPath);
+            movie.putExtra("overview", current.Overview);
+            movie.putExtra("title", current.title);
+            movie.putExtra("date", current.releaseDate);
+            movie.putExtra("rating", current.voteAverage);
+            movie.putExtra("id",current.movieId);
             context.startActivity(movie);
+
+
         }
     }
 }

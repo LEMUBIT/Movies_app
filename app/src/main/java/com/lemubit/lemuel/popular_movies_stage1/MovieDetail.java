@@ -17,11 +17,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetView;
 import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.lemubit.lemuel.popular_movies_stage1.localData.MovieContract;
 import com.squareup.picasso.NetworkPolicy;
@@ -34,7 +37,7 @@ import butterknife.ButterKnife;
 
 
 public class MovieDetail extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor[]> {
 
 
     @BindView(R.id.movie_image)
@@ -49,8 +52,10 @@ public class MovieDetail extends AppCompatActivity implements
     TextView rating;
     @BindView(R.id.favBtn)
     MaterialFavoriteButton favMovie;
-   @BindView(R.id.play_movie_trailer_btn)
+    @BindView(R.id.play_movie_trailer_btn)
     ImageButton playBtn;
+    @BindView(R.id.detailScroll)
+    ScrollView detailSC;
 
     GradientDrawable ratingCircle;
 
@@ -62,6 +67,7 @@ public class MovieDetail extends AppCompatActivity implements
 
     public String LOADMovieID;
     private static final int MOVIE_LOADER_ID = 2;
+    final String LIST_STATE_KEY = "recycler_list_state";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +80,7 @@ public class MovieDetail extends AppCompatActivity implements
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         /*YOUTUBE BASE**/
-        final String YOU_TUBE_BASE="https://www.youtube.com/watch?v=";
+        final String YOU_TUBE_BASE = "https://www.youtube.com/watch?v=";
 
         /*Get extras**/
         final String titleExtra = getIntent().getExtras().getString("title");
@@ -103,7 +109,7 @@ public class MovieDetail extends AppCompatActivity implements
             @Override
             public void onClick(View view) {
 
-                Uri webpage = Uri.parse(YOU_TUBE_BASE+currentTrailerID);
+                Uri webpage = Uri.parse(YOU_TUBE_BASE + currentTrailerID);
                 Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
                 startActivity(webIntent);
             }
@@ -180,8 +186,8 @@ public class MovieDetail extends AppCompatActivity implements
      * CHECK IF MOVIE HAS BEEN SET AS FAVOURITE, IF SO DISPLAY IT USING THE MaterialFavoriteButton
      */
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new AsyncTaskLoader<Cursor>(this) {
+    public Loader<Cursor[]> onCreateLoader(int id, Bundle args) {
+        return new AsyncTaskLoader<Cursor[]>(this) {
 
             @Override
             protected void onStartLoading() {
@@ -189,14 +195,30 @@ public class MovieDetail extends AppCompatActivity implements
             }
 
             @Override
-            public Cursor loadInBackground() {
+            public Cursor[] loadInBackground() {
+                Cursor [] check=new Cursor[2];
                 try {
-                    return getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(LOADMovieID).build(),
+                    /**
+                     * Checks if movies has been saved before
+                     * */
+                    check[0]= getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(LOADMovieID).build(),
                             null,
                             null,
                             null,
                             MovieContract.MovieEntry.MOVIE_TITLE
                     );
+
+
+                    /*
+                    * Checks if any movie has been added to favourite at all
+                    * */
+                    check[1]=getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
+                            null,
+                            null,
+                            null,
+                            MovieContract.MovieEntry.MOVIE_TITLE
+                    );
+                    return check;
 
                 } catch (Exception e) {
                     Log.e("DB GET error", "Failed to load data");
@@ -211,16 +233,34 @@ public class MovieDetail extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data.getCount() > 0) {
+    public void onLoadFinished(Loader<Cursor[]> loader, Cursor [] data) {
+        if (data[0].getCount() > 0) {
             UserAction = false;//SET IT TO FALSE BECAUSE IT IS THE LOADER ACTING NOW
             favMovie.setFavorite(true, true);//SET THE FAVOURITE BUTTON
             UserAction = true;//SET IT TO TRUE AFTER OPERATION SO THAT USER CAN PERFORM ACTION
         }
+
+
+        if(data[1].getCount()<1)
+        {
+            TapTargetView.showFor(this,
+                    TapTarget.forView(findViewById(R.id.favBtn),"Favourite","Tap this to select this movie as favourite")
+                    .outerCircleColor(R.color.colorPrimary)
+                            .outerCircleAlpha(0.96f)
+                            .targetCircleColor(R.color.white)
+                            .titleTextSize(20)
+                            .titleTextColor(R.color.white)
+                            .descriptionTextSize(10)
+                            .transparentTarget(true)
+                            .targetRadius(20)
+                            .cancelable(true)
+
+            );
+        }
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(Loader<Cursor[]> loader) {
 
     }
 }

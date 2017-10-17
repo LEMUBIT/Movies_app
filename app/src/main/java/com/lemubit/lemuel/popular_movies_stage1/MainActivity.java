@@ -3,6 +3,7 @@ package com.lemubit.lemuel.popular_movies_stage1;
 
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -33,15 +34,14 @@ public class MainActivity extends AppCompatActivity implements
     private MovieDbAdapter mAdapter;
     private static final int MOVIE_LOADER_ID = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         new AsyncMovie(MainActivity.this).execute(POPULAR_URL);
-
-        //
-        mAdapter=new MovieDbAdapter(this);
+        mAdapter = new MovieDbAdapter(this);
     }
 
     @Override
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onResume();
         getSupportLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
     }
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements
 
             @Override
             public Cursor loadInBackground() {
-                try{
+                try {
                     return getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
                             null,
                             null,
@@ -120,10 +121,8 @@ public class MainActivity extends AppCompatActivity implements
                             MovieContract.MovieEntry.MOVIE_TITLE
                     );
 
-                }
-                catch (Exception e)
-                {
-                    Log.e("DB GET error","Failed to load data");
+                } catch (Exception e) {
+                    Log.e("DB GET error", "Failed to load data");
                     e.printStackTrace();
                     return null;
                 }

@@ -14,7 +14,7 @@
         <activity
             android:name=".MainActivity"
             android:label="Movies To Watch"
-            android:configChanges="orientation|screenSize"
+
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,6 @@
         <activity
             android:name=".MovieDetail"
             android:label="Details"
-            android:configChanges="orientation|screenSize"
             android:parentActivityName=".MainActivity"
             >
 
