@@ -22,8 +22,13 @@ public class MovieDbHelper extends SQLiteOpenHelper {
                 + "(" +
                 MovieContract.MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 MovieContract.MovieEntry.MOVIE_TITLE + " TEXT NOT NULL," +
-                MovieContract.MovieEntry.MOVIE_ID + " INTEGER NOT NULL," +
-                MovieContract.MovieEntry.MOVIE_IMAGE_URL+ " TEXT NOT NULL"+
+                MovieContract.MovieEntry.MOVIE_ID + " INTEGER NOT NULL ," +
+                MovieContract.MovieEntry.MOVIE_IMAGE_URL+ " TEXT NOT NULL,"+
+                MovieContract.MovieEntry.MOVIE_OVERVIEW+ " TEXT NOT NULL,"+
+                MovieContract.MovieEntry.MOVIE_IMAGE_PATH+ " TEXT NOT NULL,"+
+                MovieContract.MovieEntry.MOVIE_RATING+ " TEXT NOT NULL,"+
+                MovieContract.MovieEntry.MOVIE_RELEASE_DATE+ " TEXT NOT NULL,"+
+                "UNIQUE("+MovieContract.MovieEntry.MOVIE_ID +")"+
                 ")";
 
         sqLiteDatabase.execSQL(MOVIE_DB_CREATE_SQL);

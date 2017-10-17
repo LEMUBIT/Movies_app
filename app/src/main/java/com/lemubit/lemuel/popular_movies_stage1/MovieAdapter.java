@@ -46,7 +46,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         MovieData current = movies.get(position);
 
         try {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w185/" + current.posterPath).networkPolicy(NetworkPolicy.OFFLINE).into(myHolder.moviePoster);
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w185/" + current.posterPath).into(myHolder.moviePoster);
         } catch (Exception e) {
             Log.e("image eeer:", e.getMessage());
         }

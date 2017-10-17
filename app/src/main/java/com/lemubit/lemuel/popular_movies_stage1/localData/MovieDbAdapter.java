@@ -111,17 +111,22 @@ public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void onClick(View view) {
-//            MovieData current = movies.get(getAdapterPosition());
-//
-//            Intent movie = new Intent(context, MovieDetail.class);
-//            movie.putExtra("image", current.posterPath);
-//            movie.putExtra("overview", current.Overview);
-//            movie.putExtra("title", current.title);
-//            movie.putExtra("date", current.releaseDate);
-//            movie.putExtra("rating", current.voteAverage);
-//            movie.putExtra("id",current.movieId);
-//
-//            context.startActivity(movie);
+            int movieID = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_ID);
+            int title=mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_TITLE);
+            int overview=mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_OVERVIEW);
+            int date=mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_RELEASE_DATE);
+            int imagePath=mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_IMAGE_PATH);
+            int rating=mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_RATING);
+
+            Intent movie = new Intent(context, MovieDetail.class);
+            movie.putExtra("image", mCursor.getString(imagePath));
+            movie.putExtra("overview", mCursor.getString(overview));
+            movie.putExtra("title", mCursor.getString(title));
+            movie.putExtra("date", mCursor.getString(date));
+            movie.putExtra("rating", mCursor.getString(rating));
+            movie.putExtra("id",mCursor.getString(movieID));
+
+            context.startActivity(movie);
         }
     }
 }
