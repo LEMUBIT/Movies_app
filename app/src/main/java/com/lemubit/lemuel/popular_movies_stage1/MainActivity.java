@@ -3,7 +3,6 @@ package com.lemubit.lemuel.popular_movies_stage1;
 
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;

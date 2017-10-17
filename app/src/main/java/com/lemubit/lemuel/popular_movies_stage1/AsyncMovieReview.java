@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import butterknife.BindView;
+
 
 public class AsyncMovieReview extends AsyncTask<String, Void, String> {
     private Activity movieDetail;

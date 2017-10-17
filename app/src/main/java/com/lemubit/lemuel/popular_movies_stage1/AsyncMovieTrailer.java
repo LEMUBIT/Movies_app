@@ -1,13 +1,13 @@
 package com.lemubit.lemuel.popular_movies_stage1;
 
 import android.app.Activity;
-import android.content.Context;
+
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 
 import org.json.JSONArray;
 import org.json.JSONObject;

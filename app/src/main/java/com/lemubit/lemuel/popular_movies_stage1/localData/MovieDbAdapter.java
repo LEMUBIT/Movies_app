@@ -12,9 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.lemubit.lemuel.popular_movies_stage1.MovieAdapter;
 import com.lemubit.lemuel.popular_movies_stage1.MovieData;
 import com.lemubit.lemuel.popular_movies_stage1.MovieDetail;
 import com.lemubit.lemuel.popular_movies_stage1.R;
@@ -22,8 +20,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+
 
 /**
  * Created by charl on 16/10/2017.
