@@ -160,13 +160,19 @@ tools:context="com.lemubit.lemuel.popular_movies_stage1.MovieDetail">
         android:layout_alignTop="@+id/play_movie_trailer_btn"
         android:gravity="center_vertical"
         android:text="PLAY TRAILER" />
-
+    <Spinner
+        android:id="@+id/trailerSpinner"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/play_movie_trailer_btn" />
     <ImageView
         android:id="@+id/ReviewTopdivider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/play_movie_trailer_btn"
+        android:layout_below="@id/trailerSpinner"
         android:background="@color/colorPrimaryDark"
 
         />
@@ -208,6 +214,8 @@ tools:context="com.lemubit.lemuel.popular_movies_stage1.MovieDetail">
         android:layout_alignEnd="@+id/favBtn"
         android:layout_below="@+id/nestedScrollView"
         android:visibility="invisible" />
+
+
 
 </RelativeLayout>
     </ScrollView>

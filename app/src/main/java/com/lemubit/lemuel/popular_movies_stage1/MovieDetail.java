@@ -1,6 +1,7 @@
 package com.lemubit.lemuel.popular_movies_stage1;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
@@ -12,7 +13,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +26,8 @@ import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.lemubit.lemuel.popular_movies_stage1.localData.MovieContract;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,10 +49,13 @@ public class MovieDetail extends AppCompatActivity implements
     TextView rating;
     @BindView(R.id.favBtn)
     MaterialFavoriteButton favMovie;
+   @BindView(R.id.play_movie_trailer_btn)
+    ImageButton playBtn;
 
     GradientDrawable ratingCircle;
 
-
+    static ArrayList<String> TrailerID;
+    static String currentTrailerID;
     //UserAction: To tell whether is is the loader trying to click the Favorite Button
     public Boolean UserAction = true;
 
@@ -59,8 +69,12 @@ public class MovieDetail extends AppCompatActivity implements
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);//to bind views
 
+        TrailerID = new ArrayList<>();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        /*YOUTUBE BASE**/
+        final String YOU_TUBE_BASE="https://www.youtube.com/watch?v=";
 
         /*Get extras**/
         final String titleExtra = getIntent().getExtras().getString("title");
@@ -85,6 +99,16 @@ public class MovieDetail extends AppCompatActivity implements
         release_date.setText(dateExtra);
 
 
+        playBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Uri webpage = Uri.parse(YOU_TUBE_BASE+currentTrailerID);
+                Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+                startActivity(webIntent);
+            }
+        });
+
         favMovie.setOnFavoriteChangeListener(new MaterialFavoriteButton.OnFavoriteChangeListener() {
             @Override
             public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
@@ -105,12 +129,12 @@ public class MovieDetail extends AppCompatActivity implements
                     if (uri != null) {
                         Toast.makeText(getBaseContext(), "Added to favourites", Toast.LENGTH_LONG).show();
                     }
-                } else if(UserAction && favorite==false) {
+                } else if (UserAction && favorite == false) {
                     Uri uri = MovieContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(MovieIdExtra).build();
-                    int deleted=getContentResolver().delete(uri, null, null);
+                    int deleted = getContentResolver().delete(uri, null, null);
 
-                    if(deleted>0)
-                    Toast.makeText(getBaseContext(), "Removed from favourites", Toast.LENGTH_LONG).show();
+                    if (deleted > 0)
+                        Toast.makeText(getBaseContext(), "Removed from favourites", Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -118,9 +142,15 @@ public class MovieDetail extends AppCompatActivity implements
 
 
         /**
-         * LoadReviews
+         * Load Reviews
          * **/
         new AsyncMovieReview(MovieDetail.this).execute(MovieIdExtra);
+
+        /**Load Trailers
+         *
+         * **/
+        new AsyncMovieTrailer(MovieDetail.this).execute(MovieIdExtra);
+
 
         /**
          * Initialize Loader
@@ -185,7 +215,7 @@ public class MovieDetail extends AppCompatActivity implements
         if (data.getCount() > 0) {
             UserAction = false;//SET IT TO FALSE BECAUSE IT IS THE LOADER ACTING NOW
             favMovie.setFavorite(true, true);//SET THE FAVOURITE BUTTON
-            UserAction=true;//SET IT TO TRUE AFTER OPERATION SO THAT USER CAN PERFORM ACTION
+            UserAction = true;//SET IT TO TRUE AFTER OPERATION SO THAT USER CAN PERFORM ACTION
         }
     }
 
