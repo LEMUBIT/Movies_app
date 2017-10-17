@@ -196,12 +196,12 @@ public class MovieDetail extends AppCompatActivity implements
 
             @Override
             public Cursor[] loadInBackground() {
-                Cursor [] check=new Cursor[2];
+                Cursor[] check = new Cursor[2];
                 try {
                     /**
                      * Checks if movies has been saved before
                      * */
-                    check[0]= getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(LOADMovieID).build(),
+                    check[0] = getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(LOADMovieID).build(),
                             null,
                             null,
                             null,
@@ -212,7 +212,7 @@ public class MovieDetail extends AppCompatActivity implements
                     /*
                     * Checks if any movie has been added to favourite at all
                     * */
-                    check[1]=getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
+                    check[1] = getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI,
                             null,
                             null,
                             null,
@@ -233,7 +233,7 @@ public class MovieDetail extends AppCompatActivity implements
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor[]> loader, Cursor [] data) {
+    public void onLoadFinished(Loader<Cursor[]> loader, Cursor[] data) {
         if (data[0].getCount() > 0) {
             UserAction = false;//SET IT TO FALSE BECAUSE IT IS THE LOADER ACTING NOW
             favMovie.setFavorite(true, true);//SET THE FAVOURITE BUTTON
@@ -241,11 +241,13 @@ public class MovieDetail extends AppCompatActivity implements
         }
 
 
-        if(data[1].getCount()<1)
-        {
+        /*Display how to favourite :)
+        *
+        * */
+        if (data[1].getCount() < 1) {
             TapTargetView.showFor(this,
-                    TapTarget.forView(findViewById(R.id.favBtn),"Favourite","Tap this to select this movie as favourite")
-                    .outerCircleColor(R.color.colorPrimary)
+                    TapTarget.forView(findViewById(R.id.favBtn), "Favourite", "Tap this to select this movie as favourite")
+                            .outerCircleColor(R.color.colorPrimary)
                             .outerCircleAlpha(0.96f)
                             .targetCircleColor(R.color.white)
                             .titleTextSize(20)
