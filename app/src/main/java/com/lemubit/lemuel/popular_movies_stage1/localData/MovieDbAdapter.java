@@ -37,8 +37,6 @@ public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<MovieData> movies = new ArrayList<>();
 
 
-
-
     public MovieDbAdapter(Context context) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
@@ -81,7 +79,7 @@ public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         aMovie.releaseDate = mCursor.getString(date);
         aMovie.voteAverage = mCursor.getString(rating);
         aMovie.movieId = mCursor.getString(movieID);
-        movies.add(position,aMovie);
+        movies.add(position, aMovie);
     }
 
     @Override
@@ -144,7 +142,7 @@ public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             movie.putExtra("title", current.title);
             movie.putExtra("date", current.releaseDate);
             movie.putExtra("rating", current.voteAverage);
-            movie.putExtra("id",current.movieId);
+            movie.putExtra("id", current.movieId);
             context.startActivity(movie);
 
 

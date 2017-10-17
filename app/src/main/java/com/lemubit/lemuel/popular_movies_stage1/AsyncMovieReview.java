@@ -130,9 +130,9 @@ public class AsyncMovieReview extends AsyncTask<String, Void, String> {
 
             for (int i = 0; i < movaray.length(); i++) {
                 JSONObject json_data = movaray.getJSONObject(i);
-                reviewTxt.append("**Author**: "+json_data.getString("author")+"\n");
-                reviewTxt.append("Review:"+"\n");
-                reviewTxt.append(json_data.getString("content")+"\n\n");
+                reviewTxt.append("**Author**: " + json_data.getString("author") + "\n");
+                reviewTxt.append("Review:" + "\n");
+                reviewTxt.append(json_data.getString("content") + "\n\n");
             }
 
         } catch (Exception e) {

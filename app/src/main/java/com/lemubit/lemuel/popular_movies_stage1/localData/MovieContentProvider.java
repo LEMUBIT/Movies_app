@@ -64,17 +64,17 @@ public class MovieContentProvider extends ContentProvider {
                 break;
 
             case MOVIE_WITH_ID:
-                String MovId=uri.getPathSegments().get(1);
-                String mSelection="movieID=?";
-                String [] mSelectionArgs=new String []{MovId};
-                movieCursor=db.query(MovieContract.MovieEntry.TABLE_NAME,
+                String MovId = uri.getPathSegments().get(1);
+                String mSelection = "movieID=?";
+                String[] mSelectionArgs = new String[]{MovId};
+                movieCursor = db.query(MovieContract.MovieEntry.TABLE_NAME,
                         projection,
                         mSelection,
                         mSelectionArgs,
                         null,
                         null,
                         sortOrder
-                        );
+                );
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown Uri " + uri);
@@ -117,17 +117,16 @@ public class MovieContentProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         int movieDeleted;
 
-        switch (match)
-        {
+        switch (match) {
             case MOVIE_WITH_ID:
-                String id=uri.getPathSegments().get(1);
-                movieDeleted=db.delete(MovieContract.MovieEntry.TABLE_NAME,
+                String id = uri.getPathSegments().get(1);
+                movieDeleted = db.delete(MovieContract.MovieEntry.TABLE_NAME,
                         "movieID=?",
-                        new String []{id}
-                        );
+                        new String[]{id}
+                );
                 break;
             default:
-                throw new UnsupportedOperationException("Unknown uri: "+uri);
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
 
         if (movieDeleted != 0) {

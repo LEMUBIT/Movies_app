@@ -121,11 +121,10 @@ public class AsyncMovieTrailer extends AsyncTask<String, Void, String> {
             JSONObject root = new JSONObject(movieTrailers);
             JSONArray movaray = root.getJSONArray("results");
 
-            for(int i=0;i<movaray.length();i++)
-            {
+            for (int i = 0; i < movaray.length(); i++) {
                 JSONObject json_data = movaray.getJSONObject(i);
-                trailerName.add(i,json_data.getString("name"));
-                MovieDetail.TrailerID.add(i,json_data.getString("key"));
+                trailerName.add(i, json_data.getString("name"));
+                MovieDetail.TrailerID.add(i, json_data.getString("key"));
             }
         } catch (Exception e) {
 
@@ -142,7 +141,7 @@ public class AsyncMovieTrailer extends AsyncTask<String, Void, String> {
                 /*
                 * Set current_Trailer ID to ID of selected Trailer
                 * */
-                MovieDetail.currentTrailerID=MovieDetail.TrailerID.get(adapterView.getSelectedItemPosition());
+                MovieDetail.currentTrailerID = MovieDetail.TrailerID.get(adapterView.getSelectedItemPosition());
             }
 
             @Override
@@ -150,7 +149,6 @@ public class AsyncMovieTrailer extends AsyncTask<String, Void, String> {
 
             }
         });
-
 
 
     }

@@ -95,7 +95,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             movie.putExtra("title", current.title);
             movie.putExtra("date", current.releaseDate);
             movie.putExtra("rating", current.voteAverage);
-            movie.putExtra("id",current.movieId);
+            movie.putExtra("id", current.movieId);
 
             context.startActivity(movie);
         }
