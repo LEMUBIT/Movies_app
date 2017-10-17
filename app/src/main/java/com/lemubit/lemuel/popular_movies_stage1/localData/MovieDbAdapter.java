@@ -53,6 +53,8 @@ public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         try {
             Picasso.with(context).load(mCursor.getString(movieUrl)).networkPolicy(NetworkPolicy.OFFLINE).into(myHolder.moviePoster);
+
+
         } catch (Exception e) {
             Log.e("image eeer:", e.getMessage());
         }

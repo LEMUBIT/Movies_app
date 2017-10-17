@@ -10,4 +10,5 @@
     <string name="sort_by_popularity">Sort by Popularity</string>
     <string name="sort_by_top_rating">Sort by top rating</string>
     <string name="my_favourites">My Favourites</string>
+    <string name="reviews">Reviews</string>
 </resources>

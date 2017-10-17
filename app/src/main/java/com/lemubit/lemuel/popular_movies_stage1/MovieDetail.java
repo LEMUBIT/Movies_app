@@ -88,7 +88,7 @@ public class MovieDetail extends AppCompatActivity implements
         favMovie.setOnFavoriteChangeListener(new MaterialFavoriteButton.OnFavoriteChangeListener() {
             @Override
             public void onFavoriteChanged(MaterialFavoriteButton buttonView, boolean favorite) {
-                //If just changed to favourite then insert
+
                 String imageUrl = imageBase + imagePathExtra;
 
                 if (favorite && UserAction) {
@@ -115,6 +115,12 @@ public class MovieDetail extends AppCompatActivity implements
                 }
             }
         });
+
+
+        /**
+         * LoadReviews
+         * **/
+        new AsyncMovieReview(MovieDetail.this).execute(MovieIdExtra);
 
         /**
          * Initialize Loader
