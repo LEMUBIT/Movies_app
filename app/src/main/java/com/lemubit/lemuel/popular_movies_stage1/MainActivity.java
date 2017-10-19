@@ -3,6 +3,7 @@ package com.lemubit.lemuel.popular_movies_stage1;
 
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements
     @BindView(R.id.movie_recycler_view)
     RecyclerView movieRecycler;
 
+    RecyclerView.LayoutManager mLayoutManager;
+    Parcelable mListState;
+
     static String APIkey = BuildConfig.Movie_API;
     private static final String POPULAR_URL = "https://api.themoviedb.org/3/movie/popular?page=1&language=en-US&api_key=" + APIkey;
     private static final String TOP_RATED = "https://api.themoviedb.org/3/movie/top_rated?page=1&language=en-US&api_key=" + APIkey;
@@ -41,26 +45,41 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
         new AsyncMovie(MainActivity.this).execute(POPULAR_URL);
         mAdapter = new MovieDbAdapter(this);
+
+        movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+        mLayoutManager = movieRecycler.getLayoutManager();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getSupportLoaderManager().restartLoader(MOVIE_LOADER_ID, null, this);
+        if (mListState != null) {
+            if (MainActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+                mLayoutManager = movieRecycler.getLayoutManager();
+            } else {
+                movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+                mLayoutManager = movieRecycler.getLayoutManager();
+            }
+            mLayoutManager.onRestoreInstanceState(mListState);
+
+        }
     }
 
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mListState = mLayoutManager.onSaveInstanceState();
+        outState.putParcelable("listkey", mListState);
+    }
 
-        //to make it more user friendly :)
-        if (MainActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-        } else {
-            movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
-        }
-
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null)
+            mListState = savedInstanceState.getParcelable("listkey");
     }
 
     @Override

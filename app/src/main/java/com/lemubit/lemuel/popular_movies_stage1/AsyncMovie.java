@@ -146,12 +146,6 @@ public class AsyncMovie extends AsyncTask<String, Void, String> {
             mAdapter = new MovieAdapter(movieActivity, movies);
             movieRecycler.setAdapter(mAdapter);
 
-            if (movieActivity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                movieRecycler.setLayoutManager(new GridLayoutManager(movieActivity, 2));
-            } else {
-                movieRecycler.setLayoutManager(new GridLayoutManager(movieActivity, 4));
-            }
-
 
         } catch (JSONException e) {
             Toast.makeText(movieActivity, "Could not get movies!", Toast.LENGTH_LONG).show();

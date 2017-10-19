@@ -2,11 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lemubit.lemuel.popular_movies_stage1.MainActivity"
-
-    >
+    tools:context="com.lemubit.lemuel.popular_movies_stage1.MainActivity">
 
     <ProgressBar
         android:id="@+id/movie_progress"
@@ -22,8 +21,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:paddingTop="10dp">
-
-
     </android.support.v7.widget.RecyclerView>
 
 

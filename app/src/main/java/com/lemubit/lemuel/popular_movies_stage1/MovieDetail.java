@@ -197,7 +197,8 @@ public class MovieDetail extends AppCompatActivity implements
                     /**
                      * Checks if movies has been saved before
                      * */
-                    check[0] = getContentResolver().query(MovieContract.MovieEntry.CONTENT_URI.buildUpon().appendPath(LOADMovieID).build(),
+                    check[0] = getContentResolver().query(MovieContract.MovieEntry.
+                                    CONTENT_URI.buildUpon().appendPath(LOADMovieID).build(),
                             null,
                             null,
                             null,

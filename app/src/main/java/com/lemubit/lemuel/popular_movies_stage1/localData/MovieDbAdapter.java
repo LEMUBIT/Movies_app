@@ -60,7 +60,7 @@ public class MovieDbAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int movieUrl = mCursor.getColumnIndex(MovieContract.MovieEntry.MOVIE_IMAGE_URL);
 
         try {
-            Picasso.with(context).load(mCursor.getString(movieUrl)).networkPolicy(NetworkPolicy.OFFLINE).into(myHolder.moviePoster);
+            Picasso.with(context).load(mCursor.getString(movieUrl)).networkPolicy(NetworkPolicy.OFFLINE).error(R.drawable.movie).into(myHolder.moviePoster);
 
 
         } catch (Exception e) {

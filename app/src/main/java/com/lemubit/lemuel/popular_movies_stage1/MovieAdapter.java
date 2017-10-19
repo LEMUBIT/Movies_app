@@ -11,6 +11,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
@@ -43,7 +45,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         MovieData current = movies.get(position);
 
         try {
-            Picasso.with(context).load("http://image.tmdb.org/t/p/w185/" + current.posterPath).into(myHolder.moviePoster);
+            Picasso.with(context).load("http://image.tmdb.org/t/p/w185/" + current.posterPath).networkPolicy(NetworkPolicy.OFFLINE).error(R.drawable.movie).into(myHolder.moviePoster);
         } catch (Exception e) {
             Log.e("image eeer:", e.getMessage());
         }
