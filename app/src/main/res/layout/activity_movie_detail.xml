@@ -11,7 +11,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="@dimen/viewDp_padding"
         tools:context="com.lemubit.lemuel.popular_movies_stage1.MovieDetail">
 
@@ -69,7 +69,7 @@
             <TextView
                 android:id="@+id/overview_txt"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/movie_title_txt"
                 android:text="@string/overview"
                 android:textSize="@dimen/app_text_size"

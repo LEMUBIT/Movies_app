@@ -3,6 +3,7 @@ package com.lemubit.lemuel.popular_movies_stage1;
 import android.app.Activity;
 
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +38,7 @@ public class AsyncMovieTrailer extends AsyncTask<String, Void, String> {
     private static final String BASE_URL = "https://api.themoviedb.org/3/movie/";
     private String MOVIE_ID = "";
     private static final String QUERY = "/videos?api_key=" + APIkey + "&language=en-US";
+    private static final String TRAILER_ERR0R_KEY = "trailerErr";
 
     public AsyncMovieTrailer(Activity movieDetail) {
         this.movieDetail = movieDetail;
@@ -127,7 +129,7 @@ public class AsyncMovieTrailer extends AsyncTask<String, Void, String> {
                 MovieDetail.TrailerID.add(i, json_data.getString("key"));
             }
         } catch (Exception e) {
-
+            Log.e(TRAILER_ERR0R_KEY, e.getMessage());
         }
         ArrayAdapter<String> movieSpnr = new ArrayAdapter<>(movieDetail,
                 android.R.layout.simple_spinner_item, trailerName);

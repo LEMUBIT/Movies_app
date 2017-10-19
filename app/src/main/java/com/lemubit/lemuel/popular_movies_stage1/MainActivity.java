@@ -46,8 +46,14 @@ public class MainActivity extends AppCompatActivity implements
         new AsyncMovie(MainActivity.this).execute(POPULAR_URL);
         mAdapter = new MovieDbAdapter(this);
 
-        movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
-        mLayoutManager = movieRecycler.getLayoutManager();
+        if (MainActivity.this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 2));
+            mLayoutManager = movieRecycler.getLayoutManager();
+        } else {
+            movieRecycler.setLayoutManager(new GridLayoutManager(MainActivity.this, 4));
+            mLayoutManager = movieRecycler.getLayoutManager();
+        }
+
     }
 
     @Override
